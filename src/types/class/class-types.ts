@@ -1,3 +1,4 @@
+// CLASSES AND SUBCLASSES
 export const characterClasses = [
   'Bard',
   'Druid',

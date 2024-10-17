@@ -20,20 +20,24 @@ export type WeaponRange = typeof ranges;
 export const dice = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'] as const;
 export type Die = typeof dice;
 
-export interface Weapon {
-  isSecondary: boolean;
+export interface Item {
   name: string;
+  feature: string
+}
+
+export interface Weapon extends Item {
+  isSecondary: boolean;
   trait: Trait;
   die: Die;
   damageModifier: number;
   isMagical: boolean;
   burden: 1 | 2;
-  feature: string;
-  tier: 1 | 2 | 3 | 4
+  tier: 1 | 2 | 3 | 4;
 }
 
-export interface Armor {
-  name: string;
-  base_score: number;
-  feature: string;
+export interface Armor extends Item {
+  baseScore: number;
+  tier: 1 | 2 | 3 | 4;
 }
+
+
