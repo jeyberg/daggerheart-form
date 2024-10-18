@@ -19,7 +19,11 @@ const generateWeapons = (
       damageModifier: 1,
       isMagical,
       burden: 1,
-      feature: 'Looks new and shiny',
+      feature: {
+        id: index,
+        description: 'new and shiny armor',
+        effects: []
+      },
       tier,
     });
   }
@@ -51,7 +55,11 @@ const generateArmor = (amount: number, tier: 1 | 2 | 3 | 4 = 1): Armor[] => {
       name: 'Armor ' + index,
       baseScore: index,
       tier,
-      feature: 'new and shiny armor',
+      feature: {
+        id: index,
+        description: 'new and shiny armor',
+        effects: []
+      },
     });
   }
 
@@ -61,6 +69,6 @@ const generateArmor = (amount: number, tier: 1 | 2 | 3 | 4 = 1): Armor[] => {
 export const dummyT1Armor = generateArmor(4);
 
 // ITEMS
-const generateItems = (amount: number): Item[] => ([] as Item[]).fill({ name: 'item', feature: 'cool item'}, 0, amount-1);
+const generateItems = (amount: number): Item[] => ([] as Item[]).fill({ name: 'item' }, 0, amount-1);
 
 export const dummyItems = generateItems(2);
