@@ -33,8 +33,8 @@ export const loadArmorSuccess = createAction(
 );
 export const loadArmorFail = createAction(LOAD_ARMOR_FAIL);
 
-// ARMOR STUFF
-const ITEMS_ACTION_CATEGORY = '[ARMOR] ';
+// ITEM STUFF
+const ITEMS_ACTION_CATEGORY = '[ITEM] ';
 export const LOAD_ITEMS = ITEMS_ACTION_CATEGORY + 'Load';
 export const LOAD_ITEMS_SUCCESS = ITEMS_ACTION_CATEGORY + 'Load Success';
 export const LOAD_ITEMS_FAIL = ITEMS_ACTION_CATEGORY + 'Load Fail';
