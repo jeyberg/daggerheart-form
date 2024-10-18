@@ -1,3 +1,6 @@
+import { CharacterClass } from "../class";
+import { Feature } from "../feature.types";
+
 export const traits = [
   'Agility',
   'Strength',
@@ -22,7 +25,10 @@ export type Die = typeof dice;
 
 export interface Item {
   name: string;
-  feature: string
+  feature?: Feature;
+  featureId?: number;
+  class?: CharacterClass;
+  classId?: string;
 }
 
 export interface Weapon extends Item {
