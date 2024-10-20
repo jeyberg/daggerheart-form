@@ -5,6 +5,8 @@ import {
   FORM_LOADED,
   loadArmorFail,
   loadArmorSuccess,
+  loadItemsFail,
+  loadItemsSuccess,
   loadWeaponsFail,
   loadWeaponsSuccess,
 } from './actions';
@@ -16,7 +18,7 @@ export class EquipmentEffects {
     this.actions$.pipe(
       ofType(FORM_LOADED),
       exhaustMap(() =>
-        this.equipmentService.getT1Weapons().pipe(
+        this.equipmentService.getWeaponsByTier(1).pipe(
           map((weapons) => loadWeaponsSuccess({ weapons })),
           catchError(() => of(loadWeaponsFail()))
         )
@@ -28,9 +30,21 @@ export class EquipmentEffects {
     this.actions$.pipe(
       ofType(FORM_LOADED),
       exhaustMap(() =>
-        this.equipmentService.getT1Armor().pipe(
+        this.equipmentService.getArmorByTier(1).pipe(
           map((armor) => loadArmorSuccess({ armor })),
           catchError(() => of(loadArmorFail()))
+        )
+      )
+    )
+  );
+
+  loadStartingItems$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FORM_LOADED),
+      exhaustMap(() =>
+        this.equipmentService.getStartingItems().pipe(
+          map((items) => loadItemsSuccess({ items })),
+          catchError(() => of(loadItemsFail()))
         )
       )
     )

@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Armor, Item, Weapon } from '../../types/items';
-import { loadArmorSuccess, loadWeaponsSuccess } from './actions';
+import { loadArmorSuccess, loadItemsSuccess, loadWeaponsSuccess } from './actions';
 
 export interface EquipmentState {
   weapons: Weapon[];
@@ -32,5 +32,6 @@ const onLoadItemSuccess: (
 export const equipmentReducer = createReducer(
   initialState,
   on(loadWeaponsSuccess, onLoadWeaponsSuccess),
-  on(loadArmorSuccess, onLoadArmorSuccess)
+  on(loadArmorSuccess, onLoadArmorSuccess),
+  on(loadItemsSuccess, onLoadItemSuccess)
 );

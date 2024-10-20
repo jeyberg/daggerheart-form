@@ -3,15 +3,15 @@ import { Armor, Die, Item, Trait, Weapon } from '../types/items';
 // WEAPONS
 const generateWeapons = (
   amount: number,
-  isSecondary: boolean,
+  is_secondary: boolean,
   isMagical: boolean,
   tier: 1 | 2 | 3 | 4 = 1
 ): Weapon[] => {
   const weapons: Weapon[] = [];
   for (let index = 0; index < amount; index++) {
     weapons.push({
-      isSecondary,
-      name: `${isSecondary ? 'Secondary' : 'Primary'} ${
+      is_secondary,
+      name: `${is_secondary ? 'Secondary' : 'Primary'} ${
         isMagical ? 'magical' : 'physical'
       } sword ${index}`,
       trait: 'Strength' as unknown as Trait,
@@ -25,6 +25,7 @@ const generateWeapons = (
         effects: []
       },
       tier,
+      isStartingItem: false
     });
   }
   return weapons;
@@ -60,6 +61,7 @@ const generateArmor = (amount: number, tier: 1 | 2 | 3 | 4 = 1): Armor[] => {
         description: 'new and shiny armor',
         effects: []
       },
+      isStartingItem: false
     });
   }
 
@@ -69,6 +71,6 @@ const generateArmor = (amount: number, tier: 1 | 2 | 3 | 4 = 1): Armor[] => {
 export const dummyT1Armor = generateArmor(4);
 
 // ITEMS
-const generateItems = (amount: number): Item[] => ([] as Item[]).fill({ name: 'item' }, 0, amount-1);
+const generateItems = (amount: number): Item[] => ([] as Item[]).fill({ name: 'item', isStartingItem: false }, 0, amount-1);
 
 export const dummyItems = generateItems(2);

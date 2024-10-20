@@ -7,6 +7,7 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { EquipmentEffects } from './store/effects';
 import { equipmentReducer } from './store/reducers';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,5 +23,6 @@ export const appConfig: ApplicationConfig = {
     }),
     provideEffects(EquipmentEffects),
     provideState({ name: 'equipment', reducer: equipmentReducer }),
+    provideHttpClient(),
   ],
 };

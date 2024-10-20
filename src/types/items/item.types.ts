@@ -25,6 +25,7 @@ export type Die = typeof dice;
 
 export interface Item {
   name: string;
+  isStartingItem: boolean;
   feature?: Feature;
   featureId?: number;
   class?: CharacterClass;
@@ -32,7 +33,7 @@ export interface Item {
 }
 
 export interface Weapon extends Item {
-  isSecondary: boolean;
+  is_secondary: boolean;
   trait: Trait;
   die: Die;
   damageModifier: number;
