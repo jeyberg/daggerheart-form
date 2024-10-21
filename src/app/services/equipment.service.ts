@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { dummyT1Armor, dummyT1Weapons } from '../dummy-data/items';
+import { dummyT1Armor, dummyT1Weapons } from '../../dummy-data/items';
 import { Observable, of } from 'rxjs';
-import { Armor, Item, Weapon } from '../types/items';
+import { Armor, Item, Weapon } from '../../types/items';
 import { HttpClient } from '@angular/common/http';
-import { SERVER_URL } from '../environment';
+import { SERVER_URL } from '../../environment';
 
 @Injectable({
   providedIn: 'root',

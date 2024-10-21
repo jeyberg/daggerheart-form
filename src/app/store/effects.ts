@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EquipmentService } from '../equipment.service';
+import { EquipmentService } from '../services/equipment.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   FORM_LOADED,
@@ -15,7 +15,7 @@ import {
   loadWeaponsSuccess,
 } from './actions';
 import { catchError, exhaustMap, map, of } from 'rxjs';
-import { HeritageService } from '../heritage.service';
+import { HeritageService } from '../services/heritage.service';
 
 @Injectable()
 export class EquipmentEffects {

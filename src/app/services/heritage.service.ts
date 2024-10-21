@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SERVER_URL } from '../environment';
+import { SERVER_URL } from '../../environment';
 import { Observable } from 'rxjs';
-import { Ancestry, Community } from '../types/heritage';
+import { Ancestry, Community } from '../../types/heritage';
 
 @Injectable({
   providedIn: 'root'
