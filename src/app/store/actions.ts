@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Armor, Item, Weapon } from '../../types/items';
+import { Ancestry, Community } from '../../types/heritage';
 
 // FORM STUFF
 const FORM_ACTION_CATEGORY = '[FORM] ';
@@ -45,3 +46,29 @@ export const loadItemsSuccess = createAction(
   props<{ items: Item[] }>()
 );
 export const loadItemsFail = createAction(LOAD_ITEMS_FAIL);
+
+// ANCESTRY STUFF
+const ANCESTRIES_ACTION_CATEGORY = '[ANCESTRY] ';
+export const LOAD_ANCESTRIES = ANCESTRIES_ACTION_CATEGORY + 'Load';
+export const LOAD_ANCESTRIES_SUCCESS = ANCESTRIES_ACTION_CATEGORY + 'Load Success';
+export const LOAD_ANCESTRIES_FAIL = ANCESTRIES_ACTION_CATEGORY + 'Load Fail';
+
+export const loadAncestries = createAction(LOAD_ANCESTRIES);
+export const loadAncestriesSuccess = createAction(
+  LOAD_ANCESTRIES_SUCCESS,
+  props<{ ancestries: Ancestry[] }>()
+);
+export const loadAncestriesFail = createAction(LOAD_ANCESTRIES_FAIL);
+
+// COMMUNITY STUFF
+const COMMUNITIES_ACTION_CATEGORY = '[COMMUNITY] ';
+export const LOAD_COMMUNITIES = COMMUNITIES_ACTION_CATEGORY + 'Load';
+export const LOAD_COMMUNITIES_SUCCESS = COMMUNITIES_ACTION_CATEGORY + 'Load Success';
+export const LOAD_COMMUNITIES_FAIL = COMMUNITIES_ACTION_CATEGORY + 'Load Fail';
+
+export const loadCommunities = createAction(LOAD_COMMUNITIES);
+export const loadCommunitiesSuccess = createAction(
+  LOAD_COMMUNITIES_SUCCESS,
+  props<{ communities: Community[] }>()
+);
+export const loadCommunitiesFail = createAction(LOAD_COMMUNITIES_FAIL);

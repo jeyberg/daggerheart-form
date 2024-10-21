@@ -1,14 +1,17 @@
 import { createReducer, on } from '@ngrx/store';
 import { Armor, Item, Weapon } from '../../types/items';
-import { loadArmorSuccess, loadItemsSuccess, loadWeaponsSuccess } from './actions';
+import { loadAncestriesSuccess, loadArmorSuccess, loadCommunitiesSuccess, loadItemsSuccess, loadWeaponsSuccess } from './actions';
+import { Ancestry, Community } from '../../types/heritage';
 
+
+// EQUIPMENT STUFF
 export interface EquipmentState {
   weapons: Weapon[];
   armor: Armor[];
   items: Item[];
 }
 
-export const initialState: EquipmentState = {
+export const initialEquipmentState: EquipmentState = {
   weapons: [],
   armor: [],
   items: [],
@@ -30,8 +33,36 @@ const onLoadItemSuccess: (
 ) => EquipmentState = (state, { items }) => ({ ...state, items });
 
 export const equipmentReducer = createReducer(
-  initialState,
+  initialEquipmentState,
   on(loadWeaponsSuccess, onLoadWeaponsSuccess),
   on(loadArmorSuccess, onLoadArmorSuccess),
   on(loadItemsSuccess, onLoadItemSuccess)
+);
+
+
+// HERITAGE STUFF
+export interface HeritageState {
+  ancestries: Ancestry[];
+  communities: Community[];
+}
+
+export const initialHeritageState: HeritageState = {
+  ancestries: [],
+  communities: []
+}
+
+const onLoadAncestriesSuccess: (
+  state: HeritageState,
+  action: { ancestries: Ancestry[] }
+) => HeritageState = (state, { ancestries }) => ({ ...state, ancestries });
+
+const onLoadCommunitiesSuccess: (
+  state: HeritageState,
+  action: { communities: Community[] }
+) => HeritageState = (state, { communities }) => ({ ...state, communities });
+
+export const heritageReducer = createReducer(
+  initialHeritageState,
+  on(loadAncestriesSuccess, onLoadAncestriesSuccess),
+  on(loadCommunitiesSuccess, onLoadCommunitiesSuccess)
 );

@@ -5,8 +5,8 @@ import { routes } from './app.routes';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { EquipmentEffects } from './store/effects';
-import { equipmentReducer } from './store/reducers';
+import { EquipmentEffects, HeritageEffects } from './store/effects';
+import { equipmentReducer, heritageReducer } from './store/reducers';
 import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
@@ -21,8 +21,9 @@ export const appConfig: ApplicationConfig = {
       trace: false,
       traceLimit: 75,
     }),
-    provideEffects(EquipmentEffects),
+    provideEffects(EquipmentEffects, HeritageEffects),
     provideState({ name: 'equipment', reducer: equipmentReducer }),
+    provideState({ name: 'heritage', reducer: heritageReducer}),
     provideHttpClient(),
   ],
 };

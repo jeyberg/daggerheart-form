@@ -3,14 +3,19 @@ import { EquipmentService } from '../equipment.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   FORM_LOADED,
+  loadAncestriesFail,
+  loadAncestriesSuccess,
   loadArmorFail,
   loadArmorSuccess,
+  loadCommunitiesFail,
+  loadCommunitiesSuccess,
   loadItemsFail,
   loadItemsSuccess,
   loadWeaponsFail,
   loadWeaponsSuccess,
 } from './actions';
 import { catchError, exhaustMap, map, of } from 'rxjs';
+import { HeritageService } from '../heritage.service';
 
 @Injectable()
 export class EquipmentEffects {
@@ -53,5 +58,37 @@ export class EquipmentEffects {
   constructor(
     private actions$: Actions,
     private equipmentService: EquipmentService
+  ) {}
+}
+
+@Injectable()
+export class HeritageEffects {
+  loadAllAncestries$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FORM_LOADED),
+      exhaustMap(() =>
+        this.heritageService.getAllAncestries().pipe(
+          map((ancestries) => loadAncestriesSuccess({ ancestries })),
+          catchError(() => of(loadAncestriesFail()))
+        )
+      )
+    )
+  );
+
+  loadAllCommunities$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FORM_LOADED),
+      exhaustMap(() =>
+        this.heritageService.getAllCommunities().pipe(
+          map((communities) => loadCommunitiesSuccess({ communities })),
+          catchError(() => of(loadCommunitiesFail()))
+        )
+      )
+    )
+  );
+
+  constructor(
+    private actions$: Actions,
+    private heritageService: HeritageService
   ) {}
 }
