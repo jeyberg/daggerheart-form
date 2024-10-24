@@ -1,4 +1,4 @@
-import { CharacterClass, CharacterSubclass } from './class';
+import { CharacterClassName, CharacterSubclassName } from './class';
 import { Ancestry, Community } from './heritage';
 import { Armor, Item, Weapon } from './items';
 
@@ -14,9 +14,9 @@ export interface Feature {
   ancestryId?: string;
   item?: Item;
   weapon?: Weapon;
-  class?: CharacterClass;
+  class?: CharacterClassName;
   classId?: string;
-  subClass?: CharacterSubclass;
+  subClass?: CharacterSubclassName;
   subClassId?: string;
   armor?: Armor;
 }

@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { EquipmentState, HeritageState } from './reducers';
+import { CharacterClassState, EquipmentState, HeritageState } from './reducers';
 
 export const selectEquipmentState =
   createFeatureSelector<EquipmentState>('equipment');
@@ -57,4 +57,12 @@ export const selectAncestries = createSelector(
 export const selectCommunities = createSelector(
   selectHeritageState,
   (state) => state.communities
+)
+
+// CLASS
+export const selectCharacterClassState = createFeatureSelector<CharacterClassState>('characterClasses');
+
+export const selectAllClasses = createSelector(
+  selectCharacterClassState,
+  (state) => state.classes
 )

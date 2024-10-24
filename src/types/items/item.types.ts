@@ -1,4 +1,3 @@
-import { CharacterClass } from "../class";
 import { Feature } from "../feature.types";
 
 export const traits = [
@@ -28,7 +27,6 @@ export interface Item {
   isStartingItem: boolean;
   feature?: Feature;
   featureId?: number;
-  class?: CharacterClass;
   classId?: string;
 }
 

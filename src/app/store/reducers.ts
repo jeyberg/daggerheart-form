@@ -1,7 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import { Armor, Item, Weapon } from '../../types/items';
-import { loadAncestriesSuccess, loadArmorSuccess, loadCommunitiesSuccess, loadItemsSuccess, loadWeaponsSuccess } from './actions';
+import { loadAncestriesSuccess, loadArmorSuccess, loadClassesSuccess, loadCommunitiesSuccess, loadItemsSuccess, loadWeaponsSuccess } from './actions';
 import { Ancestry, Community } from '../../types/heritage';
+import { CharacterClass } from '../../types/class';
 
 
 // EQUIPMENT STUFF
@@ -65,4 +66,24 @@ export const heritageReducer = createReducer(
   initialHeritageState,
   on(loadAncestriesSuccess, onLoadAncestriesSuccess),
   on(loadCommunitiesSuccess, onLoadCommunitiesSuccess)
+);
+
+
+// CLASS STUFF
+export interface CharacterClassState {
+  classes: CharacterClass[]
+}
+
+const initialCharacterClassState: CharacterClassState = {
+  classes: []
+}
+
+const onLoadClassesSuccess: (
+  state: CharacterClassState,
+  action: { response: CharacterClass[] }
+) => CharacterClassState = (state, { response }) => ({ ...state, classes: response });
+
+export const characterClassReducer = createReducer(
+  initialCharacterClassState,
+  on(loadClassesSuccess, onLoadClassesSuccess)
 );

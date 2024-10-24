@@ -1,6 +1,30 @@
-import { createAction, props } from '@ngrx/store';
+import { Action, ActionCreator, createAction, props } from '@ngrx/store';
 import { Armor, Item, Weapon } from '../../types/items';
 import { Ancestry, Community } from '../../types/heritage';
+import { CharacterClass } from '../../types/class';
+
+// helper function to save code lines
+const getLoadActions: <ResponseType>(
+  actionCategory: string
+) => [
+  ActionCreator<string, () => Action<string>>,
+  ActionCreator<
+    string,
+    (props: {
+      response: ResponseType;
+    }) => { response: ResponseType } & Action<string>
+  >,
+  ActionCreator<string, () => Action<string>>
+] = <PropType>(actionCategory: string) => {
+  return [
+    createAction(actionCategory + 'Load'),
+    createAction(
+      actionCategory + 'Load Success',
+      props<{ response: PropType }>()
+    ),
+    createAction(actionCategory + 'Load Fail'),
+  ];
+};
 
 // FORM STUFF
 const FORM_ACTION_CATEGORY = '[FORM] ';
@@ -50,7 +74,8 @@ export const loadItemsFail = createAction(LOAD_ITEMS_FAIL);
 // ANCESTRY STUFF
 const ANCESTRIES_ACTION_CATEGORY = '[ANCESTRY] ';
 export const LOAD_ANCESTRIES = ANCESTRIES_ACTION_CATEGORY + 'Load';
-export const LOAD_ANCESTRIES_SUCCESS = ANCESTRIES_ACTION_CATEGORY + 'Load Success';
+export const LOAD_ANCESTRIES_SUCCESS =
+  ANCESTRIES_ACTION_CATEGORY + 'Load Success';
 export const LOAD_ANCESTRIES_FAIL = ANCESTRIES_ACTION_CATEGORY + 'Load Fail';
 
 export const loadAncestries = createAction(LOAD_ANCESTRIES);
@@ -63,7 +88,8 @@ export const loadAncestriesFail = createAction(LOAD_ANCESTRIES_FAIL);
 // COMMUNITY STUFF
 const COMMUNITIES_ACTION_CATEGORY = '[COMMUNITY] ';
 export const LOAD_COMMUNITIES = COMMUNITIES_ACTION_CATEGORY + 'Load';
-export const LOAD_COMMUNITIES_SUCCESS = COMMUNITIES_ACTION_CATEGORY + 'Load Success';
+export const LOAD_COMMUNITIES_SUCCESS =
+  COMMUNITIES_ACTION_CATEGORY + 'Load Success';
 export const LOAD_COMMUNITIES_FAIL = COMMUNITIES_ACTION_CATEGORY + 'Load Fail';
 
 export const loadCommunities = createAction(LOAD_COMMUNITIES);
@@ -72,3 +98,8 @@ export const loadCommunitiesSuccess = createAction(
   props<{ communities: Community[] }>()
 );
 export const loadCommunitiesFail = createAction(LOAD_COMMUNITIES_FAIL);
+
+// CLASS AND SUBCLASS STUFF
+const CLASS_ACTION_CATEGORY = '[Class] ';
+export const [loadClasses, loadClassesSuccess, loadClassesFail] =
+  getLoadActions<CharacterClass[]>(CLASS_ACTION_CATEGORY);

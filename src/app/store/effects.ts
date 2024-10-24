@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injectable } from '@angular/core';
 import { EquipmentService } from '../services/equipment.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
@@ -7,6 +7,8 @@ import {
   loadAncestriesSuccess,
   loadArmorFail,
   loadArmorSuccess,
+  loadClassesFail,
+  loadClassesSuccess,
   loadCommunitiesFail,
   loadCommunitiesSuccess,
   loadItemsFail,
@@ -16,6 +18,7 @@ import {
 } from './actions';
 import { catchError, exhaustMap, map, of } from 'rxjs';
 import { HeritageService } from '../services/heritage.service';
+import { CharacterClassService } from '../services/character-class.service';
 
 @Injectable()
 export class EquipmentEffects {
@@ -90,5 +93,25 @@ export class HeritageEffects {
   constructor(
     private actions$: Actions,
     private heritageService: HeritageService
+  ) {}
+}
+
+@Injectable()
+export class CharacterClassEffects {
+  loadAllClasses$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FORM_LOADED),
+      exhaustMap(() =>
+        this.characterClassService.getAllClasses().pipe(
+          map((response) => loadClassesSuccess({ response })),
+          catchError(() => of(loadClassesFail()))
+        )
+      )
+    )
+  )
+
+  constructor(
+    private actions$: Actions,
+    private characterClassService: CharacterClassService
   ) {}
 }

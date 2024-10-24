@@ -1,3 +1,7 @@
+import { Domain, Trait } from "../enums";
+import { Feature } from "../feature.types";
+import { Item } from "../items";
+
 // CLASSES AND SUBCLASSES
 export const characterClasses = [
   'Bard',
@@ -10,57 +14,77 @@ export const characterClasses = [
   'Warrior',
   'Wizard',
 ] as const;
-export type CharacterClass = (typeof characterClasses)[number];
+export type CharacterClassName = (typeof characterClasses)[number];
+
+export interface CharacterClass {
+  name: string;
+  subclasses: CharacterSubClass[];
+  domains: Domain[];
+  evasionScore: number;
+  majorThreshold: number;
+  severThreshold: number;
+  items: Item[];
+  features: Feature[];
+  backgroundQuestions: string[];
+  connections: string[];
+}
+
+export interface CharacterSubClass {
+  originClass: CharacterClassName;
+  name: string;
+  spellcastTrait?: Trait;
+  features: Feature[];
+}
 
 export const bardSubclasses = ['Wordsmith', 'Troubadour'] as const;
-export type BardSubclass = (typeof bardSubclasses)[number];
+export type BardSubclassName = (typeof bardSubclasses)[number];
 
 export const druidSubclasses = [
   'Warden of the Elements',
   'Warden of Renewal',
 ] as const;
-export type DruidSubclass = (typeof druidSubclasses)[number];
+export type DruidSubclassName = (typeof druidSubclasses)[number];
 
 export const guardianSubclasses = ['Stalwart', 'Vengeance'] as const;
-export type GuardianSubclass = (typeof guardianSubclasses)[number];
+export type GuardianSubclassName = (typeof guardianSubclasses)[number];
 
 export const rangerSubclasses = ['Wayfinder', 'Beastbound'] as const;
-export type RangerSubclass = (typeof rangerSubclasses)[number];
+export type RangerSubclassName = (typeof rangerSubclasses)[number];
 
 export const rogueSubclasses = ['Syndicate', 'Nightwalker'] as const;
-export type RogueSubclass = (typeof rogueSubclasses)[number];
+export type RogueSubclassName = (typeof rogueSubclasses)[number];
 
 export const seraphSubclasses = ['Winged Sentinel', 'Divine Wielder'] as const;
-export type SeraphSubclass = (typeof seraphSubclasses)[number];
+export type SeraphSubclassName = (typeof seraphSubclasses)[number];
 
 export const sorcererSubclasses = [
   'Primal Origin',
   'Elemental Origin',
 ] as const;
-export type SorcererSubclass = (typeof sorcererSubclasses)[number];
+export type SorcererSubclassName = (typeof sorcererSubclasses)[number];
 
 export const warriorSubclasses = [
   'Call of the Slayer',
   'Call of the Brave',
 ] as const;
-export type WarriorSubclass = (typeof warriorSubclasses)[number];
+export type WarriorSubclassName = (typeof warriorSubclasses)[number];
 
 export const wizardSubclasses = [
   'School of Knowledge',
   'School of War',
 ] as const;
-export type WizardSubclass = (typeof wizardSubclasses)[number];
+export type WizardSubclassName = (typeof wizardSubclasses)[number];
 
-export type CharacterSubclass =
-  | BardSubclass
-  | DruidSubclass
-  | GuardianSubclass
-  | RangerSubclass
-  | RogueSubclass
-  | SeraphSubclass
-  | SorcererSubclass
-  | WarriorSubclass
-  | WizardSubclass;
+export type CharacterSubclassName =
+  | BardSubclassName
+  | DruidSubclassName
+  | GuardianSubclassName
+  | RangerSubclassName
+  | RogueSubclassName
+  | SeraphSubclassName
+  | SorcererSubclassName
+  | WarriorSubclassName
+  | WizardSubclassName;
 
 export const classToSubclassMap = {
   Bard: { opt1: bardSubclasses[0], opt2: bardSubclasses[1] },
