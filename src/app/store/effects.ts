@@ -1,4 +1,4 @@
-import { Injectable, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { EquipmentService } from '../services/equipment.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
