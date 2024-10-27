@@ -17,7 +17,7 @@ export const characterClasses = [
 export type CharacterClassName = (typeof characterClasses)[number];
 
 export interface CharacterClass {
-  name: string;
+  name: CharacterClassName;
   subclasses: CharacterSubClass[];
   domains: Domain[];
   evasionScore: number;
@@ -31,7 +31,7 @@ export interface CharacterClass {
 
 export interface CharacterSubClass {
   originClass: CharacterClassName;
-  name: string;
+  name: CharacterSubclassName;
   spellcastTrait?: Trait;
   features: Feature[];
 }

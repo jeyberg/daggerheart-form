@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { CharacterClassState, EquipmentState, HeritageState } from './reducers';
+import { characterClasses, CharacterClassName } from '../../types/class';
 
 export const selectEquipmentState =
   createFeatureSelector<EquipmentState>('equipment');
@@ -31,10 +32,10 @@ export const selectArmor = createSelector(
   (state) => state.armor
 );
 
-export const selectArmorByTier = (tier: number) => createSelector(
-  selectArmor,
-  (armor) => armor.filter((armorPiece) => armorPiece.tier == tier)
-)
+export const selectArmorByTier = (tier: number) =>
+  createSelector(selectArmor, (armor) =>
+    armor.filter((armorPiece) => armorPiece.tier == tier)
+  );
 
 // ITEMS
 export const selectItems = createSelector(
@@ -47,7 +48,8 @@ export const selectStartingItems = createSelector(selectItems, (items) =>
 );
 
 // HERITAGE
-export const selectHeritageState = createFeatureSelector<HeritageState>('heritage');
+export const selectHeritageState =
+  createFeatureSelector<HeritageState>('heritage');
 
 export const selectAncestries = createSelector(
   selectHeritageState,
@@ -57,12 +59,34 @@ export const selectAncestries = createSelector(
 export const selectCommunities = createSelector(
   selectHeritageState,
   (state) => state.communities
-)
+);
 
 // CLASS
-export const selectCharacterClassState = createFeatureSelector<CharacterClassState>('characterClasses');
+export const selectCharacterClassState =
+  createFeatureSelector<CharacterClassState>('characterClasses');
 
 export const selectAllClasses = createSelector(
   selectCharacterClassState,
   (state) => state.classes
-)
+);
+
+export const selectCharacterClassNames = createSelector(
+  selectAllClasses,
+  (characterClasses) =>
+    characterClasses.map((characterClass) => characterClass.name)
+);
+
+export const selectCharacterSubclassesNames = (className: CharacterClassName) =>
+  createSelector(selectAllClasses, (characterClasses) =>
+    characterClasses
+      .find((characterClass) => characterClass.name == className)
+      ?.subclasses.map((subclass) => subclass.name)
+  );
+
+export const selectClassStartingItems = (className: CharacterClassName) =>
+  createSelector(
+    selectAllClasses,
+    (classes) =>
+      classes.find((characterClass) => characterClass.name == className)
+        ?.items || []
+  );
