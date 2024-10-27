@@ -1,1 +1,223 @@
-<p>form.container works!</p>
+<form [formGroup]="form">
+  <fieldset formGroupName="step1">
+    <legend>Step 1</legend>
+    <label for="name">Name</label>
+    <input id="name" type="text" formControlName="name" />
+
+    <label for="pronouns">Pronouns</label>
+    <input id="pronouns" type="text" formControlName="pronouns" />
+
+    <label for="ancestry">Ancestry</label>
+    <select id="ancestry" formControlName="ancestry" *ngrxLet="ancestries$ as ancestries; suspenseTpl: loading">
+      @for (ancestry of ancestries; track $index) {
+      <option value="{{ ancestry.name }}">{{ ancestry.name }}</option>
+      }
+    </select>
+
+    <label for="community">Community</label>
+    <select id="community" formControlName="community" *ngrxLet="communities$ as communities; suspenseTpl: loading">
+      @for (community of communities; track $index) {
+      <option value="{{ community.name }}">{{ community.name }}</option>
+      }
+    </select>
+  </fieldset>
+  <fieldset formGroupName="step2">
+    <legend>Step 2</legend>
+    <!--
+      formgroup step2
+      class
+      subclass
+      traits
+    -->
+    <label for="characterClass">Class</label>
+    <select id="characterClass" formControlName="characterClass">
+      @for (characterClass of characterClasses; track $index) {
+      <option value="{{ characterClass }}">{{ characterClass }}</option>
+      }
+    </select>
+    <fieldset>
+      <legend>Subclass</legend>
+
+      <input
+        type="radio"
+        name="subclass"
+        id="subclass-option1"
+        formControlName="subclass"
+      />
+      <label for="subclass-option1">{{ subclassOption1 }}</label>
+
+      <input
+        type="radio"
+        name="subclass"
+        id="subclass-option2"
+        formControlName="subclass"
+      />
+      <label for="subclass-option2">{{ subclassOption2 }}</label>
+    </fieldset>
+    <fieldset formGroupName="traits" class="traits">
+      <legend>Traits</legend>
+
+      <label for="agility">Agility</label>
+      <input id="agility" type="number" formControlName="agility" />
+
+      <label for="strength">Strength</label>
+      <input id="strength" type="number" formControlName="strength" />
+
+      <label for="finesse">Finesse</label>
+      <input id="finesse" type="number" formControlName="finesse" />
+
+      <label for="instinct">Instinct</label>
+      <input id="instinct" type="number" formControlName="instinct" />
+
+      <label for="presence">Presence</label>
+      <input id="presence" type="number" formControlName="presence" />
+
+      <label for="knowledge">Knowledge</label>
+      <input id="knowledge" type="number" formControlName="knowledge" />
+    </fieldset>
+  </fieldset>
+  <fieldset formGroupName="step3">
+    <legend>Step 3</legend>
+    <!--
+      formgroup step3
+      starting primary weapon
+      starting secondary weapon
+      starting armor
+      starting common inventory
+      starting class inventory
+      domain cards
+    -->
+    <label for="primary-weapon">Primary Weapon</label>
+    <select
+      *ngrxLet="primaryT1Weapons$ as primaryWeapons"
+      formControlName="primaryWeapon"
+      id="primary-weapon"
+    >
+      @for (primaryWeapon of primaryWeapons; track $index) {
+      <option value="{{ primaryWeapon.name }}">{{ primaryWeapon.name }}</option>
+      }
+    </select>
+
+    <label for="secondary-weapon">Secondary Weapon</label>
+    <select
+      *ngrxLet="secondaryT1Weapons$ as secondaryWeapons"
+      formControlName="secondaryWeapon"
+      id="secondary-weapon"
+    >
+      @for (secondaryWeapon of secondaryWeapons; track $index) {
+      <option value="{{ secondaryWeapon.name }}">
+        {{ secondaryWeapon.name }}
+      </option>
+      }
+    </select>
+
+    <label for="armor">Armor</label>
+    <select *ngrxLet="t1Armor$ as t1Armor" formControlName="armor" id="armor">
+      @for (armor of t1Armor; track $index) {
+      <option value="{{ armor.name }}">{{ armor.name }}</option>
+      }
+    </select>
+    <fieldset *ngrxLet="startingItems$ as startingItems; suspenseTpl: loading">
+      <legend>Common starting item</legend>
+      @for (startingItem of startingItems; track $index) {
+        <input
+        type="radio"
+        name="startingCommonItem"
+        id="common-starting-item{{$index}}"
+        formControlName="startingCommonItem"
+        value="{{startingItem.name}}"
+      />
+      <label for="common-starting-item{{$index}}">{{ startingItem.name }}</label>
+      }
+    </fieldset>
+    <!--fieldset>
+      <legend>Class starting item</legend>
+
+      <input
+        type="radio"
+        name="startingClassItem"
+        id="class-starting-item1"
+        formControlName="startingClassItem"
+      />
+      <label for="class-starting-item1">{{ startingItems[0].name }}</label>
+
+      <input
+        type="radio"
+        name="startingClassItem"
+        id="class-starting-item2"
+        formControlName="startingClassItem"
+      />
+      <label for="class-starting-item2">{{ startingItems[1].name }}</label>
+    </fieldset-->
+  </fieldset>
+  <fieldset formGroupName="step4">
+    <!--
+      formgroup step4
+      description: clothes, eyes, body, body color, attitude
+      background questions: 1, 2, 3 <-- depends on class
+      experience: free input, three fields
+      create connections: 1, 2, 3 <-- depends on class
+    -->
+    <legend>Step 4</legend>
+    <fieldset formGroupName="description">
+      <legend>Description</legend>
+
+      <label for="clothes">Clothes</label>
+      <input type="text" id="clothes" formControlName="clothes" />
+
+      <label for="eyes">Eyes</label>
+      <input type="text" id="eyes" formControlName="eyes" />
+
+      <label for="body">Body</label>
+      <input type="text" id="body" formControlName="body" />
+
+      <label for="bodyColor">Body Color</label>
+      <input type="text" id="bodyColor" formControlName="bodyColor" />
+
+      <label for="attitude">Attitude</label>
+      <input type="text" id="attitude" formControlName="attitude" />
+    </fieldset>
+
+    <fieldset formGroupName="backgroundQuestions">
+      <legend>Background Question</legend>
+
+      <label for="bgq1">Background Question 1</label>
+      <input type="text" id="bgq1" formControlName="1" />
+
+      <label for="bgq2">Background Question 1</label>
+      <input type="text" id="bgq2" formControlName="2" />
+
+      <label for="bgq3">Background Question 1</label>
+      <input type="text" id="bgq3" formControlName="3" />
+    </fieldset>
+
+    <fieldset formGroupName="experiences">
+      <legend>Experiences</legend>
+
+      <label for="exp1">First Experience</label>
+      <input type="text" id="exp1" formControlName="1" />
+
+      <label for="exp2">Second Experience</label>
+      <input type="text" id="exp2" formControlName="2" />
+
+      <label for="exp3">Third Experience</label>
+      <input type="text" id="exp3" formControlName="3" />
+    </fieldset>
+
+    <fieldset formGroupName="connections">
+      <legend>Connections</legend>
+
+      <label for="conn1">First Connection</label>
+      <input type="text" id="conn1" formControlName="1" />
+
+      <label for="conn2">Second Connection</label>
+      <input type="text" id="conn2" formControlName="2" />
+
+      <label for="conn3">Third Connection</label>
+      <input type="text" id="conn3" formControlName="3" />
+    </fieldset>
+  </fieldset>
+</form>
+<p>{{ this.form.value | json }}</p>
+
+<ng-template #loading><p>Loading...</p></ng-template>
