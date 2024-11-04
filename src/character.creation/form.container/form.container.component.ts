@@ -67,7 +67,8 @@ export class FormContainerComponent implements OnInit, OnDestroy {
   subclassOption2?: CharacterSubclassName;
   store: Store;
 
-  characterClassesForForm$: Observable<{ name: CharacterClassName, subclasses: CharacterSubclassName[]}[]>;
+  characterClassesForForm$: Observable<CharacterClassName[]>;
+  characterSubclassNames$: Observable<CharacterSubclassName[] | undefined> = of();
   subclassOptions$: Observable<CharacterSubclassName[]> = of([]);
   primaryT1Weapons$: Observable<Weapon[]>;
   secondaryT1Weapons$: Observable<Weapon[]>;
@@ -161,7 +162,7 @@ export class FormContainerComponent implements OnInit, OnDestroy {
       .pipe(
         tap((value) => {
           if (isCharacterClass(value)) {
-            this.store.select(selectCharacterSubclassesNames(value));
+            this.characterSubclassNames$ = this.store.select(selectCharacterSubclassesNames(value));
           }
         }),
         takeUntil(this.destroy$)

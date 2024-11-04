@@ -30,29 +30,25 @@
       traits
     -->
     <label for="characterClass">Class</label>
-    <select id="characterClass" formControlName="characterClass">
-      @for (characterClass of characterClasses; track $index) {
-      <option value="{{ characterClass }}">{{ characterClass }}</option>
+    <select id="characterClass" formControlName="characterClass" *ngrxLet="characterClassesForForm$ as characterClassNames">
+      @for (characterClassName of characterClassNames; track $index) {
+      <option value="{{ characterClassName }}">{{ characterClassName }}</option>
       }
     </select>
     <fieldset>
       <legend>Subclass</legend>
-
-      <input
+      <ng-container *ngrxLet="characterSubclassNames$ as characterSubclassNames">
+        @for (characterSubclassName of characterSubclassNames; track $index) {
+          <input
         type="radio"
         name="subclass"
-        id="subclass-option1"
+        id="subclass-option{{$index}}"
         formControlName="subclass"
+        [value]="characterSubclassName"
       />
-      <label for="subclass-option1">{{ subclassOption1 }}</label>
-
-      <input
-        type="radio"
-        name="subclass"
-        id="subclass-option2"
-        formControlName="subclass"
-      />
-      <label for="subclass-option2">{{ subclassOption2 }}</label>
+      <label for="subclass-option{{$index}}">{{ characterSubclassName }}</label>
+        }
+      </ng-container>
     </fieldset>
     <fieldset formGroupName="traits" class="traits">
       <legend>Traits</legend>
