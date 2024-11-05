@@ -52,24 +52,9 @@
     </fieldset>
     <fieldset formGroupName="traits" class="traits">
       <legend>Traits</legend>
-
-      <label for="agility">Agility</label>
-      <input id="agility" type="number" formControlName="agility" />
-
-      <label for="strength">Strength</label>
-      <input id="strength" type="number" formControlName="strength" />
-
-      <label for="finesse">Finesse</label>
-      <input id="finesse" type="number" formControlName="finesse" />
-
-      <label for="instinct">Instinct</label>
-      <input id="instinct" type="number" formControlName="instinct" />
-
-      <label for="presence">Presence</label>
-      <input id="presence" type="number" formControlName="presence" />
-
-      <label for="knowledge">Knowledge</label>
-      <input id="knowledge" type="number" formControlName="knowledge" />
+      @for (item of traitsControlNameLabels | keyvalue; track $index) {
+        <app-trait-select [controlName]="item.key" [label]="item.value" [formGroup]="traitsFormGroup"></app-trait-select>
+      }
     </fieldset>
   </fieldset>
   <fieldset formGroupName="step3">

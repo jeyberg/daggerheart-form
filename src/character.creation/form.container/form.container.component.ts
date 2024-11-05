@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -22,7 +23,7 @@ import {
   CharacterSubclassName,
   classToSubclassMap,
 } from '../../types/class';
-import { JsonPipe } from '@angular/common';
+import { JsonPipe, KeyValuePipe, TitleCasePipe } from '@angular/common';
 import { StepOneComponent } from '../creation.steps/step.one/step.one.component';
 import { StepTwoComponent } from '../creation.steps/step.two/step.two.component';
 import { StepThreeComponent } from '../creation.steps/step.three/step.three.component';
@@ -42,6 +43,8 @@ import {
 } from '../../app/store/selectors';
 import { Armor, Item, Weapon } from '../../types/items';
 import { LetDirective } from '@ngrx/component';
+import { Trait } from '../../types/enums';
+import { TraitSelectComponent } from '../../app/trait-select/trait-select.component';
 
 @Component({
   selector: 'app-form.container',
@@ -53,6 +56,9 @@ import { LetDirective } from '@ngrx/component';
     StepTwoComponent,
     StepThreeComponent,
     LetDirective,
+    TitleCasePipe,
+    KeyValuePipe,
+    TraitSelectComponent
   ],
   templateUrl: './form.container.component.html',
   styleUrl: './form.container.component.sass',
@@ -61,11 +67,14 @@ export class FormContainerComponent implements OnInit, OnDestroy {
   @Output() loaded = new EventEmitter<void>();
 
   form: FormGroup;
-  characterClasses = characterClasses;
-  classToSubclassMap = classToSubclassMap;
-  subclassOption1?: CharacterSubclassName;
-  subclassOption2?: CharacterSubclassName;
+  traitsFormGroup: FormGroup;
   store: Store;
+  traitsControlNameLabels = {
+    plusTwo: '+2',
+    firstPlusOne: '+1',
+    secondPlusOne: '+1',
+    minusOne: '-1'
+  } as const;
 
   characterClassesForForm$: Observable<CharacterClassName[]>;
   characterSubclassNames$: Observable<CharacterSubclassName[] | undefined> = of();
@@ -81,6 +90,9 @@ export class FormContainerComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder, store: Store) {
     this.form = this.createForm();
+    this.traitsFormGroup = ((this.form.controls['step2'] as FormGroup).controls[
+      'traits'
+    ] as FormGroup)
     this.store = store;
     this.characterClassesForForm$ = this.store.select(selectCharacterClassNames);
     this.primaryT1Weapons$ = store.select(selectPrimaryWeaponsByTier(1));
@@ -112,12 +124,10 @@ export class FormContainerComponent implements OnInit, OnDestroy {
         characterClass: ['' as CharacterClassName],
         subclass: ['' as CharacterSubclassName],
         traits: this.fb.group({
-          agility: [0],
-          strength: [0],
-          finesse: [0],
-          instinct: [0],
-          presence: [0],
-          knowledge: [0],
+          plusTwo: [''],
+          firstPlusOne: [''],
+          secondPlusOne: [''],
+          minusOne: [''],
         }),
       }),
       step3: this.fb.group({

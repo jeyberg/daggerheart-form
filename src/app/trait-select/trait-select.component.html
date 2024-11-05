@@ -1,0 +1,8 @@
+<ng-container [formGroup]="formGroup()">
+  <label for="{{ controlName() }}">{{ label() }}</label>
+  <select id="{{ controlName() }}" formControlName="{{ controlName() }}">
+    @for (trait of traits; track $index) {
+    <option value="{{ trait }}" [hidden]="neighborValues.includes(trait)">{{ trait | titlecase }}</option>
+    }
+  </select>
+</ng-container>
