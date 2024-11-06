@@ -44,7 +44,6 @@ import {
 import { Armor, Item, Weapon } from '../../types/items';
 import { LetDirective } from '@ngrx/component';
 import { Trait } from '../../types/enums';
-import { TraitSelectComponent } from '../../app/trait-select/trait-select.component';
 
 @Component({
   selector: 'app-form.container',
@@ -58,7 +57,6 @@ import { TraitSelectComponent } from '../../app/trait-select/trait-select.compon
     LetDirective,
     TitleCasePipe,
     KeyValuePipe,
-    TraitSelectComponent
   ],
   templateUrl: './form.container.component.html',
   styleUrl: './form.container.component.sass',

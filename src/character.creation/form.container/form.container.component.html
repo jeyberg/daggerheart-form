@@ -53,7 +53,6 @@
     <fieldset formGroupName="traits" class="traits">
       <legend>Traits</legend>
       @for (item of traitsControlNameLabels | keyvalue; track $index) {
-        <!--app-trait-select [controlName]="item.key" [label]="item.value" [formGroup]="traitsFormGroup"></app-trait-select-->
         <label for="{{item.key}}">{{item.value}}</label>
         <select id="{{item.key}}" formControlName="{{item.key}}">
           @for (trait of traits; track $index) {
