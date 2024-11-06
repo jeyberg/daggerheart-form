@@ -8,6 +8,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { CharacterClassEffects, EquipmentEffects, HeritageEffects } from './store/effects';
 import { characterClassReducer, equipmentReducer, heritageReducer } from './store/reducers';
 import { provideHttpClient } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,6 +26,6 @@ export const appConfig: ApplicationConfig = {
     provideState({ name: 'equipment', reducer: equipmentReducer }),
     provideState({ name: 'heritage', reducer: heritageReducer}),
     provideState({ name: 'characterClasses', reducer: characterClassReducer}),
-    provideHttpClient(),
+    provideHttpClient(), provideAnimationsAsync(),
   ],
 };
