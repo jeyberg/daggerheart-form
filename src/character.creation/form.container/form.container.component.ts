@@ -69,12 +69,19 @@ export class FormContainerComponent implements OnInit, OnDestroy {
   form: FormGroup;
   traitsFormGroup: FormGroup;
   store: Store;
+  traits = Object.values(Trait);
   traitsControlNameLabels = {
     plusTwo: '+2',
     firstPlusOne: '+1',
     secondPlusOne: '+1',
     minusOne: '-1'
   } as const;
+  traitsOptionsState: {[key: string]: Trait[]} = {
+    plusTwo: [],
+    firstPlusOne: [],
+    secondPlusOne: [],
+    minusOne: [],
+  }
 
   characterClassesForForm$: Observable<CharacterClassName[]>;
   characterSubclassNames$: Observable<CharacterSubclassName[] | undefined> = of();
@@ -105,6 +112,7 @@ export class FormContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.onCharacterClassChanges();
+    this.onTraitsChanges();
     this.store.dispatch(formLoaded());
   }
 
@@ -178,6 +186,24 @@ export class FormContainerComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe();
+  }
+
+  private onTraitsChanges(): void {
+    (this.form.controls['step2'] as FormGroup).controls[
+      'traits'
+    ].valueChanges
+    .pipe(
+      tap((newValues) => {
+        const controlNames = Object.keys(newValues);
+        for(let controlName of controlNames) {
+          this.traitsOptionsState[controlName] = controlNames
+          .filter((name) => name !== controlName)
+          .map((name) => newValues[name]);
+        }
+      }),
+      takeUntil(this.destroy$)
+    )
+    .subscribe();
   }
 }
 
