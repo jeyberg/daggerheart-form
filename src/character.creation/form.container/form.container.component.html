@@ -56,7 +56,7 @@
         <label for="{{item.key}}">{{item.value}}</label>
         <select id="{{item.key}}" formControlName="{{item.key}}">
           @for (trait of traits; track $index) {
-            <option value="{{trait}}" [hidden]="traitsOptionsState[item.key].includes(trait)">{{ trait }}</option>
+            <option value="{{trait}}" [hidden]="traitsOptionsState[item.key].includes(trait)">{{ trait | titlecase }}</option>
           }
         </select>
       }
