@@ -70,23 +70,26 @@ export const selectAllClasses = createSelector(
   (state) => state.classes
 );
 
+export const selectClass = (name: CharacterClassName) => createSelector(
+  selectAllClasses,
+  (classes) =>
+    classes.find((characterClass) => characterClass.name == name)
+);
+
 export const selectCharacterClassNames = createSelector(
   selectAllClasses,
   (characterClasses) =>
     characterClasses.map((characterClass) => characterClass.name)
 );
 
-export const selectCharacterSubclassesNames = (className: CharacterClassName) =>
-  createSelector(selectAllClasses, (characterClasses) =>
-    characterClasses
-      .find((characterClass) => characterClass.name == className)
-      ?.subclasses.map((subclass) => subclass.name)
+export const selectCharacterSubclassesNames = (name: CharacterClassName) =>
+  createSelector(
+    selectClass(name),
+    (characterClass) => characterClass?.subclasses || []
   );
 
-export const selectClassStartingItems = (className: CharacterClassName) =>
+export const selectClassStartingItems = (name: CharacterClassName) =>
   createSelector(
-    selectAllClasses,
-    (classes) =>
-      classes.find((characterClass) => characterClass.name == className)
-        ?.items || []
+    selectClass(name),
+    (characterClass) => characterClass?.items || []
   );
