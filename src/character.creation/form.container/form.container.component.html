@@ -145,6 +145,29 @@
       create connections: 1, 2, 3 <-- depends on class
     -->
     <legend>Step 4</legend>
+    <fieldset formGroupName="backgroundQuestions">
+      <legend>Background Questions</legend>
+      @for (bgQuestion of backgroundQuestions; track $index) {
+        <mat-form-field class="example-full-width">
+          <mat-label>{{bgQuestion}}</mat-label>
+          <input matInput type="text">
+        </mat-form-field>
+      }
+    </fieldset>
+
+    <fieldset formGroupName="experiences">
+      <legend>Experiences</legend>
+
+      <label for="exp1">First Experience</label>
+      <input type="text" id="exp1" formControlName="1" />
+
+      <label for="exp2">Second Experience</label>
+      <input type="text" id="exp2" formControlName="2" />
+
+      <label for="exp3">Third Experience</label>
+      <input type="text" id="exp3" formControlName="3" />
+    </fieldset>
+
     <fieldset formGroupName="description">
       <legend>Description</legend>
 
@@ -162,32 +185,6 @@
 
       <label for="attitude">Attitude</label>
       <input type="text" id="attitude" formControlName="attitude" />
-    </fieldset>
-
-    <fieldset formGroupName="backgroundQuestions">
-      <legend>Background Question</legend>
-
-      <label for="bgq1">Background Question 1</label>
-      <input type="text" id="bgq1" formControlName="1" />
-
-      <label for="bgq2">Background Question 1</label>
-      <input type="text" id="bgq2" formControlName="2" />
-
-      <label for="bgq3">Background Question 1</label>
-      <input type="text" id="bgq3" formControlName="3" />
-    </fieldset>
-
-    <fieldset formGroupName="experiences">
-      <legend>Experiences</legend>
-
-      <label for="exp1">First Experience</label>
-      <input type="text" id="exp1" formControlName="1" />
-
-      <label for="exp2">Second Experience</label>
-      <input type="text" id="exp2" formControlName="2" />
-
-      <label for="exp3">Third Experience</label>
-      <input type="text" id="exp3" formControlName="3" />
     </fieldset>
 
     <fieldset formGroupName="connections">

@@ -27,7 +27,7 @@ import { JsonPipe, KeyValuePipe, TitleCasePipe } from '@angular/common';
 import { StepOneComponent } from '../creation.steps/step.one/step.one.component';
 import { StepTwoComponent } from '../creation.steps/step.two/step.two.component';
 import { StepThreeComponent } from '../creation.steps/step.three/step.three.component';
-import { Observable, of, Subject, takeUntil, tap } from 'rxjs';
+import { map, mergeMap, Observable, of, Subject, takeUntil, tap } from 'rxjs';
 import { isCharacterClass } from '../../helper-functions/type-checks';
 import { Store } from '@ngrx/store';
 import { formLoaded } from '../../app/store/actions';
@@ -40,10 +40,13 @@ import {
   selectSecondaryWeaponsByTier,
   selectStartingItems,
   selectCharacterSubclassesNames,
+  selectClass,
 } from '../../app/store/selectors';
 import { Armor, Item, Weapon } from '../../types/items';
 import { LetDirective } from '@ngrx/component';
 import { Trait } from '../../types/enums';
+import { MatInputModule } from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-form.container',
@@ -57,6 +60,8 @@ import { Trait } from '../../types/enums';
     LetDirective,
     TitleCasePipe,
     KeyValuePipe,
+    MatInputModule,
+    MatFormFieldModule
   ],
   templateUrl: './form.container.component.html',
   styleUrl: './form.container.component.sass',
@@ -82,7 +87,7 @@ export class FormContainerComponent implements OnInit, OnDestroy {
   }
 
   characterClassesForForm$: Observable<CharacterClassName[]>;
-  characterSubclassNames$: Observable<CharacterSubclassName[] | undefined> = of();
+  characterSubclassNames$: Observable<CharacterSubclassName[]> = of();
   subclassOptions$: Observable<CharacterSubclassName[]> = of([]);
   primaryT1Weapons$: Observable<Weapon[]>;
   secondaryT1Weapons$: Observable<Weapon[]>;
@@ -90,6 +95,8 @@ export class FormContainerComponent implements OnInit, OnDestroy {
   startingItems$: Observable<Item[]>;
   ancestries$: Observable<Ancestry[]>;
   communities$: Observable<Community[]>;
+  backgroundQuestions: string[] = [];
+
 
   destroy$ = new Subject<void>();
 
@@ -172,18 +179,30 @@ export class FormContainerComponent implements OnInit, OnDestroy {
   }
 
   private onCharacterClassChanges(): void {
+    // TODO: refactor to put everything into one call to valueChanges
     (this.form.controls['step2'] as FormGroup).controls[
       'characterClass'
     ].valueChanges
       .pipe(
         tap((value) => {
-          if (isCharacterClass(value)) {
-            this.characterSubclassNames$ = this.store.select(selectCharacterSubclassesNames(value));
-          }
+          this.characterSubclassNames$ = this.store.select(selectCharacterSubclassesNames(value));
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
+
+      (this.form.controls['step2'] as FormGroup).controls[
+        'characterClass'
+      ].valueChanges
+        .pipe(
+          mergeMap((className) => this.store.select(selectClass(className))),
+          tap((characterClass) => {
+            if (!characterClass) { return; }
+            this.backgroundQuestions = characterClass.backgroundQuestions;
+          }),
+          takeUntil(this.destroy$)
+        )
+        .subscribe();
   }
 
   private onTraitsChanges(): void {
