@@ -11,10 +11,10 @@ export const selectWeapons = createSelector(
   (state) => state.weapons
 );
 export const selectPrimaryWeapons = createSelector(selectWeapons, (weapons) =>
-  weapons.filter((weapon) => !weapon.is_secondary)
+  weapons.filter((weapon) => !weapon.isSecondary)
 );
 export const selectSecondaryWeapons = createSelector(selectWeapons, (weapons) =>
-  weapons.filter((weapon) => weapon.is_secondary)
+  weapons.filter((weapon) => weapon.isSecondary)
 );
 export const selectPrimaryWeaponsByTier = (tier: number) =>
   createSelector(selectPrimaryWeapons, (weapons) =>
@@ -85,7 +85,7 @@ export const selectCharacterClassNames = createSelector(
 export const selectCharacterSubclassesNames = (name: CharacterClassName) =>
   createSelector(
     selectClass(name),
-    (characterClass) => characterClass?.subclasses || []
+    (characterClass) => characterClass?.subclasses.map((subClass) => subClass.name) || []
   );
 
 export const selectClassStartingItems = (name: CharacterClassName) =>
@@ -93,3 +93,8 @@ export const selectClassStartingItems = (name: CharacterClassName) =>
     selectClass(name),
     (characterClass) => characterClass?.items || []
   );
+
+export const selectBackgroundQuestionsByClass = (name: CharacterClassName) => createSelector(
+  selectClass(name),
+  (characterClass) => characterClass?.backgroundQuestions
+);

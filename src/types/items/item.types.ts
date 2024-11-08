@@ -31,7 +31,7 @@ export interface Item {
 }
 
 export interface Weapon extends Item {
-  is_secondary: boolean;
+  isSecondary: boolean;
   trait: Trait;
   die: Die;
   damageModifier: number;

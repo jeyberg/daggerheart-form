@@ -10,7 +10,7 @@ const generateWeapons = (
   const weapons: Weapon[] = [];
   for (let index = 0; index < amount; index++) {
     weapons.push({
-      is_secondary,
+      isSecondary: is_secondary,
       name: `${is_secondary ? 'Secondary' : 'Primary'} ${
         isMagical ? 'magical' : 'physical'
       } sword ${index}`,
