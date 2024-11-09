@@ -6,7 +6,9 @@ import {
   Output,
 } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -35,14 +37,14 @@ import {
   selectPrimaryWeaponsByTier,
   selectSecondaryWeaponsByTier,
   selectStartingItems,
-  selectCharacterSubclassesNames,
   selectClass,
 } from '../../app/store/selectors';
 import { Armor, Item, Weapon } from '../../types/items';
 import { LetDirective } from '@ngrx/component';
 import { Trait } from '../../types/enums';
 import { MatInputModule } from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { TextInputGroupComponent } from '../../app/text-input-group/text-input-group.component';
 
 @Component({
   selector: 'app-form.container',
@@ -54,7 +56,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     TitleCasePipe,
     KeyValuePipe,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    TextInputGroupComponent
   ],
   templateUrl: './form.container.component.html',
   styleUrl: './form.container.component.sass',
@@ -76,8 +79,11 @@ export class FormContainerComponent implements OnInit, OnDestroy {
     minusOne: [],
   };
   backgroundQuestions: string[] = [];
+  connections: string[] = [];
   characterSubclassNames: CharacterSubclassName[] = [];
   classStartingItems: string[] = [];
+  descriptionLabels: string[] = ['Clothes', 'Eyes', 'Body', 'Body Color', 'Attitude'];
+  experienceLabes: string[] = ['First Experience', 'Second Experience', 'Third Experience'];
 
   characterClassesForForm$: Observable<CharacterClassName[]>;
   primaryT1Weapons$: Observable<Weapon[]>;
@@ -111,6 +117,10 @@ export class FormContainerComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  getFormGroup(formGroupName: string): FormGroup {
+    return this.form.get(formGroupName) as FormGroup;
+  }
+
   private createForm(): FormGroup {
     return this.fb.group({
       step1: this.fb.group({
@@ -138,28 +148,10 @@ export class FormContainerComponent implements OnInit, OnDestroy {
         domainCards: []
       }),
       step4: this.fb.group({
-        description: this.fb.group({
-          clothes: [''],
-          eyes: [''],
-          body: [''],
-          bodyColor: [''],
-          attitude: [''],
-        }),
-        backgroundQuestions: this.fb.group({
-          1: [''],
-          2: [''],
-          3: [''],
-        }),
-        experiences: this.fb.group({
-          1: [''],
-          2: [''],
-          3: [''],
-        }),
-        connections: this.fb.group({
-          1: [''],
-          2: [''],
-          3: [''],
-        }),
+        description: this.createFormControlArray(5),
+        backgroundQuestions: this.createFormControlArray(3),
+        experiences: this.createFormControlArray(3),
+        connections: this.createFormControlArray(3),
       }),
     });
   }
@@ -173,6 +165,7 @@ export class FormContainerComponent implements OnInit, OnDestroy {
           tap((characterClass) => {
             if (!characterClass) { return; }
             this.backgroundQuestions = characterClass.backgroundQuestions;
+            this.connections = characterClass.connections;
             this.characterSubclassNames = characterClass.subclasses.map((subClass) => subClass.name);
             this.classStartingItems = characterClass.items.map((item) => item.name);
           }),
@@ -197,6 +190,10 @@ export class FormContainerComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     )
     .subscribe();
+  }
+
+  private createFormControlArray(length: number): FormArray {
+    return this.fb.array(Array(5).fill(null).map(() => new FormControl('')));
   }
 }
 

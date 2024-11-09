@@ -137,60 +137,27 @@
       create connections: 1, 2, 3 <-- depends on class
     -->
     <legend>Step 4</legend>
-    <fieldset formGroupName="backgroundQuestions">
-      <legend>Background Questions</legend>
-      @for (bgQuestion of backgroundQuestions; track $index) {
-        <mat-form-field class="example-full-width">
-          <mat-label>{{bgQuestion}}</mat-label>
-          <input matInput type="text">
-        </mat-form-field>
-      }
-    </fieldset>
-
-    <fieldset formGroupName="experiences">
-      <legend>Experiences</legend>
-
-      <label for="exp1">First Experience</label>
-      <input type="text" id="exp1" formControlName="1" />
-
-      <label for="exp2">Second Experience</label>
-      <input type="text" id="exp2" formControlName="2" />
-
-      <label for="exp3">Third Experience</label>
-      <input type="text" id="exp3" formControlName="3" />
-    </fieldset>
-
-    <fieldset formGroupName="description">
-      <legend>Description</legend>
-
-      <label for="clothes">Clothes</label>
-      <input type="text" id="clothes" formControlName="clothes" />
-
-      <label for="eyes">Eyes</label>
-      <input type="text" id="eyes" formControlName="eyes" />
-
-      <label for="body">Body</label>
-      <input type="text" id="body" formControlName="body" />
-
-      <label for="bodyColor">Body Color</label>
-      <input type="text" id="bodyColor" formControlName="bodyColor" />
-
-      <label for="attitude">Attitude</label>
-      <input type="text" id="attitude" formControlName="attitude" />
-    </fieldset>
-
-    <fieldset formGroupName="connections">
-      <legend>Connections</legend>
-
-      <label for="conn1">First Connection</label>
-      <input type="text" id="conn1" formControlName="1" />
-
-      <label for="conn2">Second Connection</label>
-      <input type="text" id="conn2" formControlName="2" />
-
-      <label for="conn3">Third Connection</label>
-      <input type="text" id="conn3" formControlName="3" />
-    </fieldset>
+    <app-text-input-group
+        [formGroup]="getFormGroup('step4')"
+        [formArrayName]="'backgroundQuestions'"
+        [labels]="backgroundQuestions"
+        [fieldSetName]="'Background Questions'"
+      ></app-text-input-group>
+    <app-text-input-group
+        [formGroup]="getFormGroup('step4')"
+        [formArrayName]="'experiences'"
+        [labels]="experienceLabes"
+      ></app-text-input-group>
+      <app-text-input-group
+      [formGroup]="getFormGroup('step4')"
+      [formArrayName]="'description'"
+      [labels]="descriptionLabels"
+    ></app-text-input-group>
+    <app-text-input-group
+        [formGroup]="getFormGroup('step4')"
+        [formArrayName]="'connections'"
+        [labels]="connections"
+      ></app-text-input-group>
   </fieldset>
 </form>
 <p>{{ this.form.value | json }}</p>

@@ -1,0 +1,13 @@
+<ng-container [formGroup]="formGroup()">
+  <fieldset [formArrayName]="formArrayName()">
+    <legend>
+      {{ fieldSetName() ? fieldSetName() : (formArrayName() | titlecase) }}
+    </legend>
+    @for (label of labels(); track $index) {
+    <mat-form-field>
+      <mat-label>{{ label }}</mat-label>
+      <input matInput type="text" [formControlName]="$index" />
+    </mat-form-field>
+    }
+  </fieldset>
+</ng-container>
