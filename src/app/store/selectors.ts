@@ -1,6 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { CharacterClassState, EquipmentState, HeritageState } from './reducers';
+import { CharacterClassState, DomainCardState, EquipmentState, HeritageState } from './reducers';
 import { characterClasses, CharacterClassName } from '../../types/class';
+import { DomainCard } from '../../types/domain-card.type';
+import { Domain, DomainCardType } from '../../types/enums';
 
 export const selectEquipmentState =
   createFeatureSelector<EquipmentState>('equipment');
@@ -98,3 +100,21 @@ export const selectBackgroundQuestionsByClass = (name: CharacterClassName) => cr
   selectClass(name),
   (characterClass) => characterClass?.backgroundQuestions
 );
+
+// DOMAIN CARD
+const domainCardStateSelector = createFeatureSelector<DomainCardState>('domainCard');
+
+const selectAllDomainCards = createSelector(
+  domainCardStateSelector,
+  (state) => state.domainCards
+);
+
+export const selectDomainCardsByLevel = (level: number) => createSelector(
+  selectAllDomainCards,
+  (cards) => cards.filter((card) => card.level == level)
+);
+
+export const selectLvl1DomainCardsByDomains = (...domains: Domain[]) => createSelector(
+  selectDomainCardsByLevel(1),
+  (cards) => cards.filter((card) => domains.includes(card.domain))
+)

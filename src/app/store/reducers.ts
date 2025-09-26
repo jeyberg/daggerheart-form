@@ -1,8 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { Armor, Item, Weapon } from '../../types/items';
-import { loadAncestriesSuccess, loadArmorSuccess, loadClassesSuccess, loadCommunitiesSuccess, loadItemsSuccess, loadWeaponsSuccess } from './actions';
+import { loadAncestriesSuccess, loadArmorSuccess, loadClassesSuccess, loadCommunitiesSuccess, loadDomainCardsSuccess, loadItemsSuccess, loadWeaponsSuccess } from './actions';
 import { Ancestry, Community } from '../../types/heritage';
 import { CharacterClass } from '../../types/class';
+import { DomainCard } from '../../types/domain-card.type';
 
 
 // EQUIPMENT STUFF
@@ -87,3 +88,22 @@ export const characterClassReducer = createReducer(
   initialCharacterClassState,
   on(loadClassesSuccess, onLoadClassesSuccess)
 );
+
+// DOMAIN CARD STUFF
+export interface DomainCardState {
+  domainCards: DomainCard[]
+};
+
+const initialDomainCardState: DomainCardState = {
+  domainCards: []
+};
+
+const onLoadDomainCardsSuccess: (
+  state: DomainCardState,
+  action: { response: DomainCard[] }
+) => DomainCardState = (state, { response }) => ({...state, domainCards: response});
+
+export const domainCardReducer = createReducer(
+  initialDomainCardState,
+  on(loadDomainCardsSuccess, onLoadDomainCardsSuccess)
+)

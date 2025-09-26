@@ -1,9 +1,7 @@
 import {
   Component,
-  EventEmitter,
   OnDestroy,
   OnInit,
-  Output,
 } from '@angular/core';
 import {
   FormArray,
@@ -23,9 +21,6 @@ import {
   CharacterSubclassName,
 } from '../../types/class';
 import { JsonPipe, KeyValuePipe, TitleCasePipe } from '@angular/common';
-import { StepOneComponent } from '../creation.steps/step.one/step.one.component';
-import { StepTwoComponent } from '../creation.steps/step.two/step.two.component';
-import { StepThreeComponent } from '../creation.steps/step.three/step.three.component';
 import { mergeMap, Observable, of, Subject, takeUntil, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { formLoaded } from '../../app/store/actions';
@@ -38,13 +33,17 @@ import {
   selectSecondaryWeaponsByTier,
   selectStartingItems,
   selectClass,
+  selectLvl1DomainCardsByDomains,
 } from '../../app/store/selectors';
 import { Armor, Item, Weapon } from '../../types/items';
 import { LetDirective } from '@ngrx/component';
 import { Trait } from '../../types/enums';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TextInputGroupComponent } from '../../app/text-input-group/text-input-group.component';
+import { DomainCard } from '../../types/domain-card.type';
 
 @Component({
   selector: 'app-form.container',
@@ -57,14 +56,15 @@ import { TextInputGroupComponent } from '../../app/text-input-group/text-input-g
     KeyValuePipe,
     MatInputModule,
     MatFormFieldModule,
-    TextInputGroupComponent
+    TextInputGroupComponent,
+    MatCardModule,
+    MatCheckboxModule
   ],
   templateUrl: './form.container.component.html',
   styleUrl: './form.container.component.sass',
 })
 export class FormContainerComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  store: Store;
   traits = Object.values(Trait);
   traitsControlNameLabels = {
     plusTwo: '+2',
@@ -84,7 +84,8 @@ export class FormContainerComponent implements OnInit, OnDestroy {
   classStartingItems: string[] = [];
   descriptionLabels: string[] = ['Clothes', 'Eyes', 'Body', 'Body Color', 'Attitude'];
   experienceLabes: string[] = ['First Experience', 'Second Experience', 'Third Experience'];
-
+  
+  domainCards$: Observable<DomainCard[]> = of([]);
   characterClassesForForm$: Observable<CharacterClassName[]>;
   primaryT1Weapons$: Observable<Weapon[]>;
   secondaryT1Weapons$: Observable<Weapon[]>;
@@ -95,16 +96,15 @@ export class FormContainerComponent implements OnInit, OnDestroy {
   
   destroy$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder, store: Store) {
+  constructor(private fb: FormBuilder, private store: Store) {
     this.form = this.createForm();
-    this.store = store;
     this.characterClassesForForm$ = this.store.select(selectCharacterClassNames);
     this.primaryT1Weapons$ = store.select(selectPrimaryWeaponsByTier(1));
     this.secondaryT1Weapons$ = store.select(selectSecondaryWeaponsByTier(1));
     this.startingItems$ = store.select(selectStartingItems);
     this.t1Armor$ = store.select(selectArmorByTier(1));
     this.ancestries$ = store.select(selectAncestries);
-    this.communities$ = store.select(selectCommunities)
+    this.communities$ = store.select(selectCommunities);
   }
 
   ngOnInit(): void {
@@ -168,6 +168,7 @@ export class FormContainerComponent implements OnInit, OnDestroy {
             this.connections = characterClass.connections;
             this.characterSubclassNames = characterClass.subclasses.map((subClass) => subClass.name);
             this.classStartingItems = characterClass.items.map((item) => item.name);
+            this.domainCards$ = this.store.select(selectLvl1DomainCardsByDomains(...characterClass.domains));
           }),
           takeUntil(this.destroy$)
         )
@@ -175,6 +176,7 @@ export class FormContainerComponent implements OnInit, OnDestroy {
   }
 
   private onTraitsChanges(): void {
+    // TODO: refactor to component store
     (this.form.controls['step2'] as FormGroup).controls[
       'traits'
     ].valueChanges
@@ -193,7 +195,7 @@ export class FormContainerComponent implements OnInit, OnDestroy {
   }
 
   private createFormControlArray(length: number): FormArray {
-    return this.fb.array(Array(5).fill(null).map(() => new FormControl('')));
+    return this.fb.array(Array(length).fill(null).map(() => new FormControl('')));
   }
 }
 

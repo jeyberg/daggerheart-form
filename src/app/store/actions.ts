@@ -2,6 +2,7 @@ import { Action, ActionCreator, createAction, props } from '@ngrx/store';
 import { Armor, Item, Weapon } from '../../types/items';
 import { Ancestry, Community } from '../../types/heritage';
 import { CharacterClass } from '../../types/class';
+import { DomainCard } from '../../types/domain-card.type';
 
 // helper function to save code lines
 const getLoadActions: <ResponseType>(
@@ -103,3 +104,8 @@ export const loadCommunitiesFail = createAction(LOAD_COMMUNITIES_FAIL);
 const CLASS_ACTION_CATEGORY = '[Class] ';
 export const [loadClasses, loadClassesSuccess, loadClassesFail] =
   getLoadActions<CharacterClass[]>(CLASS_ACTION_CATEGORY);
+
+// DOMAIN CARDS
+const DOMAIN_CARD_ACTION_CATEGORY = '[Domain Card]';
+export const [loadDomainCards, loadDomainCardsSuccess, loadDomainCardsFail] =
+  getLoadActions<DomainCard[]>(DOMAIN_CARD_ACTION_CATEGORY)

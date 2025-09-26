@@ -5,8 +5,8 @@ import { routes } from './app.routes';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { CharacterClassEffects, EquipmentEffects, HeritageEffects } from './store/effects';
-import { characterClassReducer, equipmentReducer, heritageReducer } from './store/reducers';
+import { CharacterClassEffects, DomainCardEffects, EquipmentEffects, HeritageEffects } from './store/effects';
+import { characterClassReducer, domainCardReducer, equipmentReducer, heritageReducer } from './store/reducers';
 import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
@@ -22,10 +22,11 @@ export const appConfig: ApplicationConfig = {
       trace: false,
       traceLimit: 75,
     }),
-    provideEffects(EquipmentEffects, HeritageEffects, CharacterClassEffects),
+    provideEffects(EquipmentEffects, HeritageEffects, CharacterClassEffects, DomainCardEffects),
     provideState({ name: 'equipment', reducer: equipmentReducer }),
     provideState({ name: 'heritage', reducer: heritageReducer}),
     provideState({ name: 'characterClasses', reducer: characterClassReducer}),
+    provideState({ name: 'domainCard', reducer: domainCardReducer}),
     provideHttpClient(), provideAnimationsAsync(),
   ],
 };

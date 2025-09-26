@@ -11,6 +11,8 @@ import {
   loadClassesSuccess,
   loadCommunitiesFail,
   loadCommunitiesSuccess,
+  loadDomainCardsFail,
+  loadDomainCardsSuccess,
   loadItemsFail,
   loadItemsSuccess,
   loadWeaponsFail,
@@ -19,6 +21,7 @@ import {
 import { catchError, exhaustMap, map, of } from 'rxjs';
 import { HeritageService } from '../services/heritage.service';
 import { CharacterClassService } from '../services/character-class.service';
+import { DomainCardService } from '../services/domain-card.service';
 
 @Injectable()
 export class EquipmentEffects {
@@ -113,5 +116,25 @@ export class CharacterClassEffects {
   constructor(
     private actions$: Actions,
     private characterClassService: CharacterClassService
+  ) {}
+}
+
+@Injectable()
+export class DomainCardEffects {
+  loadLvl1DomainCards$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FORM_LOADED),
+      exhaustMap(() =>
+        this.domainCardServer.getDomainCardsByLevel(1).pipe(
+          map((response) => loadDomainCardsSuccess({ response })),
+          catchError(() => of(loadDomainCardsFail()))
+        )
+      )
+    )
+  );
+  
+  constructor(
+    private actions$: Actions,
+    private domainCardServer: DomainCardService
   ) {}
 }

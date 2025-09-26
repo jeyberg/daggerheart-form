@@ -40,3 +40,9 @@ export enum FeatureType {
     WEAPON,
     ITEM,
 }
+
+export enum DomainCardType {
+    ABILITY,
+    GRIMOIRE,
+    SPELL
+}
