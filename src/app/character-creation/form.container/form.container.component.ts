@@ -37,12 +37,7 @@ import {
   selectLvl1DomainCardsByDomains,
 } from '../../store/selectors';
 import { Armor, Item, Weapon } from '../../../types/items';
-import { LetDirective } from '@ngrx/component';
 import { Trait } from '../../../types/enums';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TextInputGroupComponent } from '../../shared/text-input-group/text-input-group.component';
 import { DomainCard } from '../../../types/domain-card.type';
 
@@ -54,11 +49,7 @@ import { DomainCard } from '../../../types/domain-card.type';
     JsonPipe,
     TitleCasePipe,
     KeyValuePipe,
-    MatInputModule,
-    MatFormFieldModule,
     TextInputGroupComponent,
-    MatCardModule,
-    MatCheckboxModule
   ],
   templateUrl: './form.container.component.html',
   styleUrl: './form.container.component.sass',

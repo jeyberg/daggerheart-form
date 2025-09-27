@@ -9,6 +9,8 @@ import { CharacterClassEffects, DomainCardEffects, EquipmentEffects, HeritageEff
 import { characterClassReducer, domainCardReducer, equipmentReducer, heritageReducer } from './store/reducers';
 import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeuix/themes/aura';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,5 +30,10 @@ export const appConfig: ApplicationConfig = {
     provideState({ name: 'characterClasses', reducer: characterClassReducer}),
     provideState({ name: 'domainCard', reducer: domainCardReducer}),
     provideHttpClient(), provideAnimationsAsync(),
+    providePrimeNG({
+        theme: {
+            preset: Aura
+        }
+    })
   ],
 };

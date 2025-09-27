@@ -1,17 +1,17 @@
 import { Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { TitleCasePipe } from '@angular/common';
+import { InputTextModule } from 'primeng/inputtext';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-text-input-group',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatInputModule,
-    MatFormFieldModule,
-    TitleCasePipe
+    TitleCasePipe,
+    InputTextModule,
+    FloatLabelModule
   ],
   templateUrl: './text-input-group.component.html',
   styleUrl: './text-input-group.component.sass'

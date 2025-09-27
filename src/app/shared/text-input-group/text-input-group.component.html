@@ -4,10 +4,10 @@
       {{ fieldSetName() ? fieldSetName() : (formArrayName() | titlecase) }}
     </legend>
     @for (label of labels(); track $index) {
-    <mat-form-field>
-      <mat-label>{{ label }}</mat-label>
-      <input matInput type="text" [formControlName]="$index" />
-    </mat-form-field>
+      <p-floatlabel>
+        <label [htmlFor]="`input-${$index}`">{{ label }}</label>
+        <input pInputText type="text" [formControlName]="$index" [id]="`input-${$index}`"/>
+      </p-floatlabel>
     }
   </fieldset>
 </ng-container>
