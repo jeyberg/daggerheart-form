@@ -8,10 +8,11 @@ import { Trait } from '../../../types/enums';
 import { Ancestry, AncestryName, Community, CommunityName } from '../../../types/heritage';
 import { Weapon, Armor, Item } from '../../../types/items';
 import { selectCharacterClassNames, selectPrimaryWeaponsByTier, selectSecondaryWeaponsByTier, selectStartingItems, selectArmorByTier, selectAncestries, selectCommunities } from '../../store/selectors';
+import { StepIndicatorComponent } from "../creation-steps/step-indicator/step-indicator.component";
 
 @Component({
   selector: 'app-character-creation-container',
-  imports: [],
+  imports: [StepIndicatorComponent],
   templateUrl: './character-creation-container.component.html',
   styleUrl: './character-creation-container.component.sass'
 })
