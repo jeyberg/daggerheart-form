@@ -8,15 +8,15 @@
     <input id="pronouns" type="text" formControlName="pronouns" />
 
     <label for="ancestry">Ancestry</label>
-    <select id="ancestry" formControlName="ancestry" *ngrxLet="ancestries$ as ancestries; suspenseTpl: loading">
-      @for (ancestry of ancestries; track $index) {
+    <select id="ancestry" formControlName="ancestry">
+      @for (ancestry of ancestries(); track $index) {
       <option value="{{ ancestry.name }}">{{ ancestry.name }}</option>
       }
     </select>
 
     <label for="community">Community</label>
-    <select id="community" formControlName="community" *ngrxLet="communities$ as communities; suspenseTpl: loading">
-      @for (community of communities; track $index) {
+    <select id="community" formControlName="community">
+      @for (community of communities(); track $index) {
       <option value="{{ community.name }}">{{ community.name }}</option>
       }
     </select>
@@ -30,8 +30,8 @@
       traits
     -->
     <label for="characterClass">Class</label>
-    <select id="characterClass" formControlName="characterClass" *ngrxLet="characterClassesForForm$ as characterClassNames">
-      @for (characterClassName of characterClassNames; track $index) {
+    <select id="characterClass" formControlName="characterClass">
+      @for (characterClassName of characterClassNames(); track $index) {
       <option value="{{ characterClassName }}">{{ characterClassName }}</option>
       }
     </select>
@@ -73,22 +73,20 @@
     -->
     <label for="primary-weapon">Primary Weapon</label>
     <select
-      *ngrxLet="primaryT1Weapons$ as primaryWeapons"
       formControlName="primaryWeapon"
       id="primary-weapon"
     >
-      @for (primaryWeapon of primaryWeapons; track $index) {
+      @for (primaryWeapon of primaryT1Weapons(); track $index) {
       <option value="{{ primaryWeapon.name }}">{{ primaryWeapon.name }}</option>
       }
     </select>
 
     <label for="secondary-weapon">Secondary Weapon</label>
     <select
-      *ngrxLet="secondaryT1Weapons$ as secondaryWeapons"
       formControlName="secondaryWeapon"
       id="secondary-weapon"
     >
-      @for (secondaryWeapon of secondaryWeapons; track $index) {
+      @for (secondaryWeapon of secondaryT1Weapons(); track $index) {
       <option value="{{ secondaryWeapon.name }}">
         {{ secondaryWeapon.name }}
       </option>
@@ -96,14 +94,14 @@
     </select>
 
     <label for="armor">Armor</label>
-    <select *ngrxLet="t1Armor$ as t1Armor" formControlName="armor" id="armor">
-      @for (armor of t1Armor; track $index) {
+    <select formControlName="armor" id="armor">
+      @for (armor of t1Armor(); track $index) {
       <option value="{{ armor.name }}">{{ armor.name }}</option>
       }
     </select>
-    <fieldset *ngrxLet="startingItems$ as startingItems; suspenseTpl: loading">
+    <fieldset>
       <legend>Common starting item</legend>
-      @for (startingItem of startingItems; track $index) {
+      @for (startingItem of startingItems(); track $index) {
         <input
         type="radio"
         name="startingCommonItem"

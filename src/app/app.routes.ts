@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-import { FormContainerComponent } from '../character.creation/form.container/form.container.component';
+import { FormContainerComponent } from './character-creation/form.container/form.container.component';
+import { AppComponent } from './app.component';
 
 export const routes: Routes = [
-    { path: '', component: FormContainerComponent }
+    { path: '', component: AppComponent }
 ];

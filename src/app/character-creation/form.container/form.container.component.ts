@@ -1,5 +1,6 @@
 import {
   Component,
+  input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -15,15 +16,15 @@ import {
   AncestryName,
   Community,
   CommunityName,
-} from '../../types/heritage';
+} from '../../../types/heritage';
 import {
   CharacterClassName,
   CharacterSubclassName,
-} from '../../types/class';
+} from '../../../types/class';
 import { JsonPipe, KeyValuePipe, TitleCasePipe } from '@angular/common';
 import { mergeMap, Observable, of, Subject, takeUntil, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { formLoaded } from '../../app/store/actions';
+import { formLoaded } from '../../store/actions';
 import {
   selectAncestries,
   selectArmorByTier,
@@ -34,24 +35,23 @@ import {
   selectStartingItems,
   selectClass,
   selectLvl1DomainCardsByDomains,
-} from '../../app/store/selectors';
-import { Armor, Item, Weapon } from '../../types/items';
+} from '../../store/selectors';
+import { Armor, Item, Weapon } from '../../../types/items';
 import { LetDirective } from '@ngrx/component';
-import { Trait } from '../../types/enums';
+import { Trait } from '../../../types/enums';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { TextInputGroupComponent } from '../../app/text-input-group/text-input-group.component';
-import { DomainCard } from '../../types/domain-card.type';
+import { TextInputGroupComponent } from '../../shared/text-input-group/text-input-group.component';
+import { DomainCard } from '../../../types/domain-card.type';
 
 @Component({
-  selector: 'app-form.container',
+  selector: 'app-form-container',
   standalone: true,
   imports: [
     ReactiveFormsModule,
     JsonPipe,
-    LetDirective,
     TitleCasePipe,
     KeyValuePipe,
     MatInputModule,
@@ -95,6 +95,15 @@ export class FormContainerComponent implements OnInit, OnDestroy {
   communities$: Observable<Community[]>;
   
   destroy$ = new Subject<void>();
+
+  domainCards = input.required<DomainCard[]>();
+  characterClassNames = input.required<CharacterClassName[]>();
+  primaryT1Weapons = input.required<Weapon[]>();
+  secondaryT1Weapons = input.required<Weapon[]>();
+  t1Armor = input.required<Armor[]>();
+  startingItems = input.required<Item[]>();
+  ancestries = input.required<Ancestry[]>();
+  communities = input.required<Community[]>();
 
   constructor(private fb: FormBuilder, private store: Store) {
     this.form = this.createForm();
