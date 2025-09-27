@@ -1,0 +1,9 @@
+<ul class="grid">
+    @for (card of cards(); track $index) {
+        <li>
+            <app-card
+                [description]="card"
+            ></app-card>
+        </li>
+    }
+</ul>
