@@ -1,22 +1,27 @@
-import { Component, input } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
-import { CharacterSubclassName, CharacterClassName } from '../../../types/class';
+import { CharacterSubclassName, CharacterClassName, CharacterClass } from '../../../types/class';
 import { DomainCard } from '../../../types/domain-card.type';
 import { Trait } from '../../../types/enums';
-import { Ancestry, AncestryName, Community, CommunityName } from '../../../types/heritage';
+import { AncestryName, Community, CommunityName } from '../../../types/heritage';
 import { Weapon, Armor, Item } from '../../../types/items';
-import { selectCharacterClassNames, selectPrimaryWeaponsByTier, selectSecondaryWeaponsByTier, selectStartingItems, selectArmorByTier, selectAncestries, selectCommunities } from '../../store/selectors';
+import { selectCharacterClassNames, selectPrimaryWeaponsByTier, selectSecondaryWeaponsByTier, selectStartingItems, selectArmorByTier, selectAncestries, selectCommunities, selectAncestryCards, selectAllClasses } from '../../store/selectors';
 import { StepIndicatorComponent } from "../creation-steps/step-indicator/step-indicator.component";
+import { CardData } from '../../../types';
+import { LetDirective } from '@ngrx/component';
+import { formLoaded } from '../../store/actions';
+import { CardSelectComponent } from '../../shared/card-select/card-select.component';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-character-creation-container',
-  imports: [StepIndicatorComponent],
+  imports: [StepIndicatorComponent, ReactiveFormsModule, LetDirective, CardSelectComponent, JsonPipe],
   templateUrl: './character-creation-container.component.html',
   styleUrl: './character-creation-container.component.sass'
 })
-export class CharacterCreationContainerComponent {
+export class CharacterCreationContainerComponent implements OnInit {
   form: FormGroup;
   traits = Object.values(Trait);
   traitsControlNameLabels = {
@@ -44,29 +49,33 @@ export class CharacterCreationContainerComponent {
   secondaryT1Weapons$: Observable<Weapon[]>;
   t1Armor$: Observable<Armor[]>;
   startingItems$: Observable<Item[]>;
-  ancestries$: Observable<Ancestry[]>;
   communities$: Observable<Community[]>;
+  ancestryCards$: Observable<CardData[]>;
+  characterClasses$: Observable<CharacterClass[]>;
+  characterSubClasses$: Observable<CardData[]> = of([]);
 
   constructor(private fb: FormBuilder, private store: Store) {
     this.form = this.createForm();
+
     this.characterClassesForForm$ = this.store.select(selectCharacterClassNames);
     this.primaryT1Weapons$ = store.select(selectPrimaryWeaponsByTier(1));
     this.secondaryT1Weapons$ = store.select(selectSecondaryWeaponsByTier(1));
     this.startingItems$ = store.select(selectStartingItems);
     this.t1Armor$ = store.select(selectArmorByTier(1));
-    this.ancestries$ = store.select(selectAncestries);
     this.communities$ = store.select(selectCommunities);
+    this.ancestryCards$ = store.select(selectAncestryCards);
+    this.characterClasses$ = store.select(selectAllClasses);
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(formLoaded())
   }
 
   private createForm(): FormGroup {
     return this.fb.group({
-      step1: this.fb.group({
-        name: [''],
-        pronouns: [''],
-        ancestry: ['' as AncestryName],
-        community: ['' as CommunityName],
-      }),
-      step2: this.fb.group({
+      ancestry: ['' as AncestryName],
+      community: ['' as CommunityName],
+      classAndTraits: this.fb.group({
         characterClass: ['' as CharacterClassName],
         subclass: ['' as CharacterSubclassName],
         traits: this.fb.group({
@@ -76,15 +85,17 @@ export class CharacterCreationContainerComponent {
           minusOne: [''],
         }),
       }),
-      step3: this.fb.group({
+      domainCards: [],
+      equipment: this.fb.group({
         primaryWeapon: [],
         secondaryWeapon: [],
         armor: [],
         startingCommonItem: [],
         startingClassItem: [],
-        domainCards: []
       }),
-      step4: this.fb.group({
+      details: this.fb.group({
+        name: [''],
+        pronouns: [''],
         description: this.createFormControlArray(5),
         backgroundQuestions: this.createFormControlArray(3),
         experiences: this.createFormControlArray(3),
