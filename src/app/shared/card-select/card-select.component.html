@@ -1,0 +1,24 @@
+<fieldset class="grid grid-cols-3 gap-4 auto-rows-[350px]" [formGroup]="formGroup">
+  @for (card of cards(); track $index) {
+  <div class="h-350px">
+    <label [for]="controlName() + $index" class="h-full">
+      <input
+        type="radio"
+        [name]="controlName()"
+        [formControlName]="controlName()"
+        [id]="controlName() + $index"
+        class="absolute opacity-0 peer w-[317px] h-[350px] "
+        [value]="card.title"
+      />
+      <p-card
+        [header]="card.title"
+        class="h-full peer-focus:border peer-focus:border-solid peer-focus:border-2 box-content"
+      >
+        <p class="m-0 whitespace-pre-line">
+          {{ card.description }}
+        </p>
+      </p-card>
+    </label>
+  </div>
+  }
+</fieldset>

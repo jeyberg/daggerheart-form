@@ -7,7 +7,7 @@
     <p-step-panels>
         <p-step-panel [value]="1">
             <ng-template #content let-activateCallback="activateCallback">
-                <app-ancestry-select></app-ancestry-select>
+                <ng-content select="app-card-select"></ng-content>
             </ng-template>
         </p-step-panel>
 

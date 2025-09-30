@@ -3,6 +3,8 @@ import { CharacterClassState, DomainCardState, EquipmentState, HeritageState } f
 import { characterClasses, CharacterClassName } from '../../types/class';
 import { DomainCard } from '../../types/domain-card.type';
 import { Domain, DomainCardType } from '../../types/enums';
+import { CardData } from '../../types/card-description';
+import { dataToCard } from '../../helper-functions/data-to-card';
 
 export const selectEquipmentState =
   createFeatureSelector<EquipmentState>('equipment');
@@ -58,10 +60,21 @@ export const selectAncestries = createSelector(
   (state) => state.ancestries
 );
 
+export const selectAncestryCards = createSelector(
+  selectAncestries,
+  (ancestries) =>
+    ancestries.map((ancestry) => dataToCard(ancestry.name, 'ancestry', ancestry.name, ancestry.features))
+);
+
 export const selectCommunities = createSelector(
   selectHeritageState,
   (state) => state.communities
 );
+
+export const selectCommunityCards = createSelector(
+  selectCommunities,
+  (communities) => communities.map((community) => dataToCard(community.name, 'community', community.name, [community.feature]))
+)
 
 // CLASS
 export const selectCharacterClassState =
@@ -77,6 +90,11 @@ export const selectClass = (name: CharacterClassName) => createSelector(
   (classes) =>
     classes.find((characterClass) => characterClass.name == name)
 );
+
+export const selectSubclassesByClass = (name: CharacterClassName) => createSelector(
+  selectClass(name),
+  (characterClass) => characterClass?.subclasses.map((subClass) => dataToCard(subClass.name, 'subclass', subClass.name, subClass.features))
+)
 
 export const selectCharacterClassNames = createSelector(
   selectAllClasses,
