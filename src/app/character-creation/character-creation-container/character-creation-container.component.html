@@ -1,6 +1,7 @@
 <form [formGroup]="form">
     <app-step-indicator>
         <app-card-select *ngrxLet="ancestryCards$ as cards" [cards]="cards" controlName="ancestry" class="ancestry"></app-card-select>
+        <app-card-select *ngrxLet="communityCards$ as cards" [cards]="cards" controlName="community" class="community-select"></app-card-select>
     </app-step-indicator>
 </form>
 <p>{{ form.value | json }}</p>

@@ -7,7 +7,7 @@ import { DomainCard } from '../../../types/domain-card.type';
 import { Trait } from '../../../types/enums';
 import { AncestryName, Community, CommunityName } from '../../../types/heritage';
 import { Weapon, Armor, Item } from '../../../types/items';
-import { selectCharacterClassNames, selectPrimaryWeaponsByTier, selectSecondaryWeaponsByTier, selectStartingItems, selectArmorByTier, selectAncestries, selectCommunities, selectAncestryCards, selectAllClasses } from '../../store/selectors';
+import { selectCharacterClassNames, selectPrimaryWeaponsByTier, selectSecondaryWeaponsByTier, selectStartingItems, selectArmorByTier, selectAncestries, selectCommunities, selectAncestryCards, selectAllClasses, selectCommunityCards } from '../../store/selectors';
 import { StepIndicatorComponent } from "../creation-steps/step-indicator/step-indicator.component";
 import { CardData } from '../../../types';
 import { LetDirective } from '@ngrx/component';
@@ -50,6 +50,7 @@ export class CharacterCreationContainerComponent implements OnInit {
   t1Armor$: Observable<Armor[]>;
   startingItems$: Observable<Item[]>;
   communities$: Observable<Community[]>;
+  communityCards$: Observable<CardData[]>;
   ancestryCards$: Observable<CardData[]>;
   characterClasses$: Observable<CharacterClass[]>;
   characterSubClasses$: Observable<CardData[]> = of([]);
@@ -65,6 +66,7 @@ export class CharacterCreationContainerComponent implements OnInit {
     this.communities$ = store.select(selectCommunities);
     this.ancestryCards$ = store.select(selectAncestryCards);
     this.characterClasses$ = store.select(selectAllClasses);
+    this.communityCards$ = store.select(selectCommunityCards);
   }
 
   ngOnInit(): void {
