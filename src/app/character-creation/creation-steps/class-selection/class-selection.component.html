@@ -1,0 +1,66 @@
+<p-accordion value="0">
+  @for (klass of classes(); track $index) {
+    <p-accordion-panel [value]="$index">
+      <p-accordion-header><h3>{{klass.name}}</h3></p-accordion-header>
+      <p-accordion-content>
+        <p-button class="ml-auto" (onClick)="onSelectClass($event, klass.name)">Select</p-button>
+        <ol>
+          <li>
+            <span class="uppercase"><b>domains</b></span>
+            <span>{{klass.domains[0]}}, {{klass.domains[1]}}</span>
+          </li>
+          <li>
+            <span class="uppercase"><b>starting evasion</b></span>
+            <span>{{klass.evasionScore}}</span>
+          </li>
+          <li>
+            <span class="uppercase"><b>starting hit points</b></span>
+            <span>5</span>
+          </li>
+          <li>
+            <span class="uppercase"><b>Starting Item</b></span>
+            <span><i>{{klass.items[0].name}}</i> OR <i>{{klass.items[1].name}}</i></span>
+          </li>
+          <li>
+            <span class="uppercase"><b>Hope Feature</b></span>
+            <span><b>{{klass.features[0].name}}: </b>{{klass.features[0].description}}</span>
+          </li>
+          <li>
+            <span class="uppercase"><b>Class Feature</b></span>
+            <span><b>{{klass.features[1].name}}: </b>{{klass.features[1].description}}</span>
+          </li>
+        </ol>
+        <h4>SUBCLASSES</h4>
+        @for (subklass of klass.subclasses; track $index) {
+          <div class="mb-[20px]">
+            <h5 class="mb-[8px] font-semibold">{{subklass.name}}</h5>
+          <ol>
+            @if (subklass.spellcastTrait) {
+              <li class="flex flex-col">
+                <span><b>Spellcast Trait</b></span>
+                <span>{{subklass.spellcastTrait}}</span>
+              </li>
+            }
+            @for (feature of subklass.features; track $index) {
+              <li class="flex flex-col">
+                <span><b>
+                  @if (feature.type == 'subclassFoundation') {
+                    Foundation Feature
+                  }
+                  @else if (feature.type == 'subclassSpecialization') {
+                    Specialization Feature
+                  }
+                  @else {
+                    Mastery Feature
+                  }
+                </b></span>
+                <span><b>{{feature.name}}: </b>{{feature.description}}</span>
+              </li>
+            }
+          </ol>
+          </div>
+        }
+      </p-accordion-content>
+  </p-accordion-panel>
+  }
+</p-accordion>
