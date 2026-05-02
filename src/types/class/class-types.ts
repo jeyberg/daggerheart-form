@@ -22,7 +22,7 @@ export interface CharacterClass {
   domains: Domain[];
   evasionScore: number;
   majorThreshold: number;
-  severThreshold: number;
+  severeThreshold: number;
   items: Item[];
   features: Feature[];
   backgroundQuestions: string[];
