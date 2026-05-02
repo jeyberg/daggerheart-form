@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CharacterSubclassName, CharacterClassName, CharacterClass } from '../../../types/class';
 import { DomainCard } from '../../../types/domain-card.type';
 import { Trait } from '../../../types/enums';
@@ -14,10 +14,12 @@ import { LetDirective } from '@ngrx/component';
 import { formLoaded } from '../../store/actions';
 import { CardSelectComponent } from '../../shared/card-select/card-select.component';
 import { JsonPipe } from '@angular/common';
+import { ClassSelectionComponent } from "../creation-steps/class-selection/class-selection.component";
+import { PanelModule } from "primeng/panel";
 
 @Component({
   selector: 'app-character-creation-container',
-  imports: [StepIndicatorComponent, ReactiveFormsModule, LetDirective, CardSelectComponent, JsonPipe],
+  imports: [StepIndicatorComponent, ReactiveFormsModule, LetDirective, CardSelectComponent, JsonPipe, ClassSelectionComponent, PanelModule],
   templateUrl: './character-creation-container.component.html',
   styleUrl: './character-creation-container.component.sass'
 })
@@ -77,15 +79,13 @@ export class CharacterCreationContainerComponent implements OnInit {
     return this.fb.group({
       ancestry: ['' as AncestryName],
       community: ['' as CommunityName],
-      classAndTraits: this.fb.group({
-        characterClass: ['' as CharacterClassName],
-        subclass: ['' as CharacterSubclassName],
-        traits: this.fb.group({
-          plusTwo: [''],
-          firstPlusOne: [''],
-          secondPlusOne: [''],
-          minusOne: [''],
-        }),
+      characterClass: ['' as CharacterClassName],
+      subclass: ['' as CharacterSubclassName],
+      traits: this.fb.group({
+        plusTwo: [''],
+        firstPlusOne: [''],
+        secondPlusOne: [''],
+        minusOne: [''],
       }),
       domainCards: [],
       equipment: this.fb.group({
