@@ -89,7 +89,6 @@
               }
             ],
             "styles": [
-              "/prebuilt-themes/rose-red.css",
               "src/styles.sass"
             ],
             "scripts": []
