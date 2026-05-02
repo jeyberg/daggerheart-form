@@ -1,0 +1,22 @@
+<p-panel>
+    <ng-template #header>
+        <div>
+            <div>
+                @if (data().levelRequirement !== null) {
+                    <app-value-display label="LEVEL" [value]="data().levelRequirement"></app-value-display>
+                }
+                <span>{{data().title}}</span>
+                @if (data().recallCost !== null) {
+                    <app-value-display label="COST" [value]="data().recallCost"></app-value-display>
+                }
+            </div>
+            <div>
+                @if (data().domain) {
+                    <span>{{data().domain}}</span>
+                }
+                <span>{{data().type}}</span>
+            </div>
+        </div>
+    </ng-template>
+    <p>{{data().description}}</p>
+</p-panel>
