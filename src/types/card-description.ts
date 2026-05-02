@@ -5,7 +5,7 @@ export interface CardDescription {
     content: string;
 }
 
-export const cardTypes = ['spell', 'grimoire', 'ability', 'ancestry', 'community', 'subclass'];
+export const cardTypes = ['spell', 'grimoire', 'ability', 'ancestry', 'community', 'foundation', 'specialization', 'mastery'];
 export type CardType = typeof cardTypes[number];
 export interface CardData {
     id: string;
