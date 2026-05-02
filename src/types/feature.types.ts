@@ -8,6 +8,7 @@ export interface Feature {
   description: string;
   effects: string[];
   appendix?: string;
+  type?: string;
 
   community?: Community;
   ancestry?: Ancestry;
